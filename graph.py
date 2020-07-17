@@ -1,16 +1,77 @@
 """ グラフ関連 """
 
+from collections import deque
 import heapq
 INF = 10**18
+
+
+# 最短経路（BFS）O(V+E)
+def bfs(N, v0, edge):
+
+    d = [-1] * N
+    d[v0] = 0
+    q = deque()
+    q.append(v0)
+
+    while q:
+        v = q.popleft()
+        for nv in edge[v]:
+            if d[nv] == -1:
+                q.append(nv)
+                d[nv] = d[v] + 1
+
+    return d
+
+
+# トポロジカルソート O(V+E)
+def topological_sort(N, dag):
+
+    degree = [0] * N
+    for i in range(N):
+        for v in dag[i]:
+            degree[v] += 1
+
+    ret = [v for v in range(N) if degree[v] == 0]
+    q = deque(ret)
+
+    while q:
+        v = q.popleft()
+        for nv in dag[v]:
+            degree[nv] -= 1
+            if degree[nv] == 0:
+                q.append(nv)
+                ret.append(nv)
+
+    return ret
+
+
+# 閉路検出
+def judge_tree(N, v0, edge):
+
+    search = [True] * N
+    search[v0] = False
+    q = deque()
+    q.append((v0, -1))
+
+    while q:
+        v, pv = q.popleft()
+        for nv in edge[v]:
+            if search[nv]:
+                q.append((nv, v))
+                search[nv] = False
+            elif pv != nv:
+                return True
+
+    return False
 
 
 # 単一始点最短経路 O(NlogN)
 def dijkstra(N, s0, edge):
 
-    d = [INF] * N  # 始点からの距離
-    used = [False] * N  # 探索済みリスト
-    edgelist = [(0, s0)]  # 始点はコスト0で初期化
-    heapq.heapify(edgelist)  # ヒープにpush
+    d = [INF] * N
+    used = [False] * N
+    edgelist = [(0, s0)]
+    heapq.heapify(edgelist)
 
     while len(edgelist):
         minedge = heapq.heappop(edgelist)
@@ -24,3 +85,17 @@ def dijkstra(N, s0, edge):
                 continue
             heapq.heappush(edgelist, [e[0] + d[v], e[1]])
     return d
+
+
+# 全点対間最短経路(ワーシャルフロイド) O(V^3)
+cost = [[INF for _ in range(V)] for _ in range(V)]
+for i in range(V):
+    edge[i][i] = 0
+
+
+def warshall_floyd(V, cost):
+    for k in range(V):
+        for i in range(V):
+            for j in range(V):
+                if cost[i][k] != INF and cost[k][j] != INF:
+                    cost[i][j] = min(cost[i][j], cost[i][k] + cost[k][j])

@@ -32,28 +32,8 @@ def bfs_grid(H, W, sx, sy, grid):
         now = q.popleft()
         x, y = now
         for m in move:
-            n_x, n_y = x + m[0], y + m[1]
-            if (0 <= n_x and n_x < W) and (0 <= n_y and n_y < H):
-                if d[n_y][n_x] == -1 and grid[n_y][n_x] == '.':
-                    d[n_y][n_x] = d[y][x] + 1
-                    q.append((n_x, n_y))
-
-
-# 閉路検出
-def judge_tree(N, v0, edge):
-
-    search = [True] * N
-    search[v0] = False
-    q = deque()
-    q.append((v0, -1))
-
-    while q:
-        v, pv = q.popleft()
-        for nv in edge[v]:
-            if search[nv]:
-                q.append((nv, v))
-                search[nv] = False
-            elif pv != nv:
-                return True
-
-    return False
+            nx, ny = x + m[0], y + m[1]
+            if 0 <= nx < W and 0 <= ny < H:
+                if d[ny][nx] == -1 and grid[ny][nx] == '.':
+                    d[ny][nx] = d[y][x] + 1
+                    q.append((nx, ny))
