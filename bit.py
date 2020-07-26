@@ -1,12 +1,13 @@
 """ Binary Index Tree """
 
 
+# 1-index
 class Bit:
 
-    def __init__(self, a):
+    def __init__(self, a):  # 配列か要素数で初期化
         if hasattr(a, "__iter__"):
             le = len(a)
-            self.n = 1 << le.bit_length()  # le を超える最小の 2 冪
+            self.n = 1 << le.bit_length()
             self.values = values = [0] * (self.n + 1)
             values[1:le + 1] = a[:]
             for i in range(1, self.n):
@@ -17,13 +18,13 @@ class Bit:
         else:
             raise TypeError
 
-    def add(self, i, val):
+    def add(self, i, val):  # a[i] += val
         n, values = self.n, self.values
         while i <= n:
             values[i] += val
             i += i & -i
 
-    def sum(self, i):  # (0, i]
+    def sum(self, i):  # (0, i] の累積和
         values = self.values
         res = 0
         while i > 0:
@@ -31,7 +32,7 @@ class Bit:
             i -= i & -i
         return res
 
-    def bisect_left(self, v):  # self.sum(i) が v 以上になる最小の i
+    def bisect_left(self, v):  # 累積和 が v 以上になる最小の i
         n, values = self.n, self.values
         if v > values[n]:
             return None

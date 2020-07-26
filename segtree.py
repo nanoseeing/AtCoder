@@ -1,3 +1,7 @@
+""" セグメント木 """
+
+
+# 0-index
 class SegTree:
 
     def __init__(self, init_val, segfunc, ide_ele):
