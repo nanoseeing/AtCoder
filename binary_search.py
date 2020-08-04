@@ -1,17 +1,20 @@
 """ 探索系 """
 
 
-# 2分探索
-def binary_search(min_n, max_n):
+def is_ok(x):
+    pass
 
-    while max_n - min_n != 1:
-        mid = (min_n + max_n) // 2
-        if f(mid):
-            max_n = mid
+
+# 2分探索（めぐる式）
+def bisect(ng, ok):
+
+    while abs(ok - ng) > 1:
+        mid = (ok + ng) // 2
+        if is_ok(mid):
+            ok = mid
         else:
-            min_n = mid
-
-    return max_n
+            ng = mid
+    return ok
 
 
 # 3分探索
@@ -21,7 +24,7 @@ def ternary_search(left, right, e=1e-09):
         mid1 = (2 * left + right) / 3
         mid2 = (left + right * 2) / 3
 
-        if f(mid1) < f(mid2):
+        if is_ok(mid1) < is_ok(mid2):
             right = mid2
         else:
             left = mid1
