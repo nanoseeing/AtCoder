@@ -6,7 +6,7 @@ def is_ok(x):
 
 
 # 2分探索（めぐる式）
-def bisect(ng, ok):
+def binary_search(ng, ok):
 
     while abs(ok - ng) > 1:
         mid = (ok + ng) // 2
