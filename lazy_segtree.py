@@ -1,6 +1,6 @@
 import sys
 
-INF = int(8e18)
+INF = 8 * 10 ** 18
 MOD = 998244353
 MASK = 32
 
