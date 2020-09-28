@@ -50,7 +50,7 @@ def composition(f, g):
 # ----- 区間変更・区間最小 ----- #
 
 e = INF
-id = int(8e18)
+id = 8 * 10**18
 
 
 def op(a, b):
@@ -74,7 +74,7 @@ def composition(f, g):
 # ----- 区間変更・区間和 ----- #
 
 e = 0
-id = int(8e18)
+id = 8 * 10**18
 
 
 def op(a, b):
