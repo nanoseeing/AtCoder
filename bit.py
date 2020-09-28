@@ -4,7 +4,7 @@
 # 1-index
 class Bit:
 
-    def __init__(self, a):  # 配列か要素数で初期化
+    def __init__(self, a):
         if hasattr(a, "__iter__"):
             le = len(a)
             self.n = 1 << le.bit_length()
@@ -18,13 +18,15 @@ class Bit:
         else:
             raise TypeError
 
-    def add(self, i, val):  # a[i] += val
+    # A[i] += val
+    def add(self, i, val):
         n, values = self.n, self.values
         while i <= n:
             values[i] += val
             i += i & -i
 
-    def sum(self, i):  # (0, i] の累積和
+    # A[1, i]の累積和
+    def sum(self, i):
         values = self.values
         res = 0
         while i > 0:
@@ -32,7 +34,8 @@ class Bit:
             i -= i & -i
         return res
 
-    def bisect_left(self, v):  # 累積和 が v 以上になる最小の i
+    # A[1, i]の累積和 が v 以上になる最小の i
+    def bisect_left(self, v):
         n, values = self.n, self.values
         if v > values[n]:
             return None

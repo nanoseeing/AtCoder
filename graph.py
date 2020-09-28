@@ -88,14 +88,14 @@ def dijkstra(N, s0, edge):
 
 
 # 全点対間最短経路(ワーシャルフロイド) O(V^3)
-cost = [[INF for _ in range(V)] for _ in range(V)]
-for i in range(V):
-    edge[i][i] = 0
+cost = [[INF for _ in range(N)] for _ in range(N)]
+for i in range(N):
+    cost[i][i] = 0
 
 
-def warshall_floyd(V, cost):
-    for k in range(V):
-        for i in range(V):
-            for j in range(V):
-                if cost[i][k] != INF and cost[k][j] != INF:
+def warshall_floyd(N, cost):
+    for k in range(N):
+        for i in range(N):
+            for j in range(N):
+                if cost[i][k] < INF and cost[k][j] < INF:
                     cost[i][j] = min(cost[i][j], cost[i][k] + cost[k][j])
