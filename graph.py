@@ -88,14 +88,39 @@ def dijkstra(N, s0, edge):
 
 
 # 全点対間最短経路(ワーシャルフロイド) O(V^3)
-cost = [[INF for _ in range(N)] for _ in range(N)]
-for i in range(N):
-    cost[i][i] = 0
-
-
 def warshall_floyd(N, cost):
+
+    cost = [[INF for _ in range(N)] for _ in range(N)]
+
+    # 対角成分を0に
+    for i in range(N):
+        cost[i][i] = 0
+
     for k in range(N):
         for i in range(N):
             for j in range(N):
                 if cost[i][k] < INF and cost[k][j] < INF:
                     cost[i][j] = min(cost[i][j], cost[i][k] + cost[k][j])
+
+
+# 最小全域木（プリム法） O(ElogV)
+def prims_algorithm(N, cost):
+
+    used = [False] * N
+    used[0] = True
+    que = [(c, w) for c, w in cost[0]]
+    heapq.heapify(que)
+
+    ret = 0
+    while que:
+        cv, v = heapq.heappop(que)
+        if used[v]:
+            continue
+        used[v] = True
+        ret += cv
+        for c, w in cost[v]:
+            if used[w]:
+                continue
+            heapq.heappush(que, (c, w))
+
+    return ret
