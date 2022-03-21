@@ -5,8 +5,9 @@ import heapq
 INF = 10**18
 
 
-# 最短経路（BFS）O(V+E)
 def bfs(N, v0, edge):
+    """ 最短経路（BFS）O(V+E)
+    """
 
     d = [-1] * N
     d[v0] = 0
@@ -23,8 +24,9 @@ def bfs(N, v0, edge):
     return d
 
 
-# トポロジカルソート O(V+E)
 def topological_sort(N, dag):
+    """ トポロジカルソート O(V+E)
+    """
 
     degree = [0] * N
     for i in range(N):
@@ -45,8 +47,9 @@ def topological_sort(N, dag):
     return ret
 
 
-# 閉路検出
 def judge_tree(N, v0, edge):
+    """ 閉路検出
+    """
 
     search = [True] * N
     search[v0] = False
@@ -65,8 +68,9 @@ def judge_tree(N, v0, edge):
     return False
 
 
-# 単一始点最短経路 O(NlogN)
 def dijkstra(N, s0, edge):
+    """ 単一始点最短経路 O(NlogN)
+    """
 
     d = [INF] * N
     used = [False] * N
@@ -87,8 +91,9 @@ def dijkstra(N, s0, edge):
     return d
 
 
-# 全点対間最短経路(ワーシャルフロイド) O(V^3)
 def warshall_floyd(N, cost):
+    """ 全点対間最短経路(ワーシャルフロイド) O(V^3)
+    """
 
     cost = [[INF for _ in range(N)] for _ in range(N)]
 
@@ -103,9 +108,9 @@ def warshall_floyd(N, cost):
                     cost[i][j] = min(cost[i][j], cost[i][k] + cost[k][j])
 
 
-# 最小全域木（プリム法） O(ElogV)
 def prims_algorithm(N, cost):
-
+    """ 最小全域木[プリム法] O(ElogV)
+    """
     used = [False] * N
     used[0] = True
     que = [(c, w) for c, w in cost[0]]
@@ -124,3 +129,16 @@ def prims_algorithm(N, cost):
             heapq.heappush(que, (c, w))
 
     return ret
+
+
+def kruskals_algorithm(edges, N):
+    """ 最小全域木[クラスカル法] O(ElogV)
+        edges : (c, a, b) 事前にソートしておくこと
+    """
+    uf = UnionFind(N)
+    cost = 0
+    for edge in edges:
+        c, a, b = edge
+        if not uf.same(a, b):
+            cost += c
+            uf.union(a, b)
